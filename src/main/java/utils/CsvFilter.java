@@ -2,6 +2,7 @@ package utils;
 
 import exeptions.ListWithoutHeaderExeption;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CsvFilter {
@@ -20,7 +21,21 @@ public class CsvFilter {
             throw new ListWithoutHeaderExeption("ERROR: don't exist header in the list");
         }
 
-        return lines;
+        List<String> responseList = new ArrayList<>();
+        responseList.add(lines.get(0));
+
+        List<String> invoiceLine = List.of(lines.get(1).toString().split(","));
+
+        boolean lineContentIva = !invoiceLine.get(4).isBlank();
+        boolean lineContentIgic = !invoiceLine.get(5).isBlank();
+        boolean checkContentOfIvaAndIgicInLine = !lineContentIva && lineContentIgic || lineContentIva && !lineContentIgic;
+
+        if ( checkContentOfIvaAndIgicInLine ){
+            responseList.add(lines.get(1));
+        }
+
+
+        return responseList;
     }
 
 }

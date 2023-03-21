@@ -66,7 +66,7 @@ class CsvFilterTest {
 
         List<String> expectedResponse = List.of(HEADER_LINE);
 
-        assertEquals(HEADER_LINE, result);
+        assertEquals(expectedResponse, result);
 
     }
 
