@@ -21,7 +21,7 @@ class CsvFilterTest {
     private final CsvFilter FILTER = new CsvFilter();
 
     @Test
-    void given_empty_list_return_empty_list(){
+    void given_empty_list_return_empty_list() throws ListWithoutHeaderExeption {
         List<String> lines = List.of();
         List<String> result = FILTER.apply(lines);
 
@@ -29,17 +29,17 @@ class CsvFilterTest {
     }
 
     @Test
-    void given_list_without_header_line_return_throw_error(){
-        List<String> linesWithoutHeader = List.of(String.join(",", "1", "21/03/2023", "1000", "810", "", "7","B76430134", ""));
-        List<String> result = FILTER.apply(linesWithoutHeader);
+    void given_list_without_header_line_return_throw_error() throws ListWithoutHeaderExeption {
 
-        ListWithoutHeaderExeption thrown = assertThrows(ListWithoutHeaderExeption.class, () ->{
-           FILTER.apply(linesWithoutHeader);
-        });
+        List<String> linesWithoutHeader = List.of(String.join(",", "1", "21/03/2023", "1000", "810", "", "7","B76430134", ""));
+
+        ListWithoutHeaderExeption thrown = assertThrows(ListWithoutHeaderExeption.class, () ->
+            FILTER.apply(linesWithoutHeader));
 
         String errorResponse = "ERROR: don't exist header in the list";
 
         assertTrue(thrown.getMessage().contentEquals(errorResponse));
+
     }
 
 }
