@@ -35,7 +35,7 @@ class CsvFilterTest {
     }
 
     @Test
-    void given_list_without_header_line_return_throw_error() throws ListWithoutHeaderExeption {
+    void given_list_without_header_line_return_throw_error() {
 
         List<String> linesWithoutHeader = List.of(String.join(",", "1", "21/03/2023", "1000", "810", "", "7","B76430134", ""));
 

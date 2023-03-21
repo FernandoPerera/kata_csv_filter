@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CsvFilterTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2023-03-21T13:17:39" hostname="DESKTOP-AUO9ALU" time="0.026">
+<testsuite name="CsvFilterTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2023-03-21T13:29:00" hostname="DESKTOP-AUO9ALU" time="0.026">
   <properties/>
-  <testcase name="given_empty_list_return_empty_list()" classname="CsvFilterTest" time="0.019"/>
-  <testcase name="given_correct_entrance_return_same_lines()" classname="CsvFilterTest" time="0.001"/>
-  <testcase name="give_line_with_iva_and_igic_stuffed_return_same_list_without_that_line()" classname="CsvFilterTest" time="0.001"/>
-  <testcase name="given_list_without_header_line_return_throw_error()" classname="CsvFilterTest" time="0.003"/>
+  <testcase name="given_empty_list_return_empty_list()" classname="CsvFilterTest" time="0.022"/>
+  <testcase name="given_correct_entrance_return_same_lines()" classname="CsvFilterTest" time="0.0"/>
+  <testcase name="give_line_with_iva_and_igic_stuffed_return_same_list_without_that_line()" classname="CsvFilterTest" time="0.0"/>
+  <testcase name="given_list_without_header_line_return_throw_error()" classname="CsvFilterTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
