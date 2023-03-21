@@ -17,6 +17,9 @@ class CsvFilterTest {
     *
     *       - A file with a single invoice where everything is correct should produce as output
     *         the same line.
+    *
+    *       - A file with a single invoice where VAT and IGIC are filled in, should eliminate the
+    *         line.
     */
 
     private final String HEADER_LINE = "Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente";
@@ -52,6 +55,18 @@ class CsvFilterTest {
         List<String> result = FILTER.apply(lines);
 
         assertEquals(lines, result);
+
+    }
+
+    @Test
+    void give_line_with_iva_and_igic_stuffed_return_same_list_without_that_line() throws ListWithoutHeaderExeption {
+
+        List<String> lines = List.of(HEADER_LINE, String.join(",", "1", "21/03/2023", "1000", "810", "21", "7","B76430134", ""));
+        List<String> result = FILTER.apply(lines);
+
+        List<String> expectedResponse = List.of(HEADER_LINE);
+
+        assertEquals(HEADER_LINE, result);
 
     }
 
