@@ -14,7 +14,9 @@ public class CsvFilter {
             return lines;
         }
 
-        if ( !lines.get(0).equals(HEADER_LINE) ){
+        boolean listContainHeader = !lines.get(0).equals(HEADER_LINE);
+
+        if ( listContainHeader ){
             throw new ListWithoutHeaderExeption("ERROR: don't exist header in the list");
         }
 
