@@ -10,6 +10,10 @@ public class CsvFilter {
 
     public List<String> apply(List<String> lines) throws ListWithoutHeaderExeption {
 
+        if (lines.isEmpty()){
+            return lines;
+        }
+
         if ( !lines.get(0).equals(HEADER_LINE) ){
             throw new ListWithoutHeaderExeption("ERROR: don't exist header in the list");
         }
