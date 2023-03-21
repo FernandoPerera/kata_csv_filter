@@ -14,6 +14,9 @@ class CsvFilterTest {
     *       - An empty or null list will produce an empty list of output.
     *
     *       - A single line file is incorrect because it has no header.
+    *
+    *       - A file with a single invoice where everything is correct should produce as output
+    *         the same line.
     */
 
     private final String HEADER_LINE = "Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente";
@@ -39,6 +42,16 @@ class CsvFilterTest {
         String errorResponse = "ERROR: don't exist header in the list";
 
         assertTrue(thrown.getMessage().contentEquals(errorResponse));
+
+    }
+
+    @Test
+    void given_correct_entrance_return_same_lines() throws ListWithoutHeaderExeption {
+
+        List<String> lines = List.of(HEADER_LINE, String.join(",", "1", "21/03/2023", "1000", "810", "", "7","B76430134", ""));
+        List<String> result = FILTER.apply(lines);
+
+        assertEquals(lines, result);
 
     }
 
