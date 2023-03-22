@@ -37,47 +37,58 @@ public class CsvFilter {
             } else {
 
                 String invoiceNumber = invoiceLineContentsList.get(0);
-                boolean containsSameInvoiceNumbers = checkLinesWhenHaveSamesInvoiceNumbers(invoiceNumber, lines);
 
-                if (!containsSameInvoiceNumbers){
+                if (!checkLinesWhenHaveSamesInvoiceNumbers(invoiceNumber, lines)){
 
-                    boolean lineContentIva = !invoiceLineContentsList.get(4).isBlank();
-                    boolean lineContentIgic = !invoiceLineContentsList.get(5).isBlank();
-                    boolean checkContentOfIvaAndIgicInLine = !lineContentIva && lineContentIgic || lineContentIva && !lineContentIgic;
+                    if (checkIvaAndIgicFields(invoiceLineContentsList)){
 
-                    if (!checkContentOfIvaAndIgicInLine){
-                        return responseList;
+                        if (checkCifAndNifFields(invoiceLineContentsList)){
+
+                            if (checkNetValue(invoiceLineContentsList) ){
+                                responseList.add(lines.get(index));
+                            }
+                        }
+
                     }
 
-                    boolean lineContentCif = !invoiceLineContentsList.get(6).isBlank();
-                    boolean lineContentNif = invoiceLineContentsList.size() == 8;
-
-                    if (lineContentNif){ lineContentNif = !invoiceLineContentsList.get(7).isBlank(); }
-
-                    boolean checkContentOfCifAndNifInLine = !lineContentCif && lineContentNif || lineContentCif && !lineContentNif;
-
-                    if (!checkContentOfCifAndNifInLine){
-                        return responseList;
-                    }
-
-                    int invoiceTax = lineContentIva
-                            ? Integer.parseInt(invoiceLineContentsList.get(4))
-                            : Integer.parseInt(invoiceLineContentsList.get(5));
-
-                    int grossValue = Integer.parseInt(invoiceLineContentsList.get(2));
-                    int netValue = Integer.parseInt(invoiceLineContentsList.get(3));
-
-                    boolean checkNetValue =  netValue == getNetValue(grossValue, invoiceTax);
-
-                    if ( checkNetValue ){
-                        responseList.add(lines.get(index));
-                    }
                 }
 
             }
         }
 
         return responseList;
+    }
+
+    private boolean checkNetValue(List<String> invoiceLineContentsList){
+
+        boolean lineContentIva = !invoiceLineContentsList.get(4).isBlank();
+
+        int invoiceTax = lineContentIva
+                ? Integer.parseInt(invoiceLineContentsList.get(4))
+                : Integer.parseInt(invoiceLineContentsList.get(5));
+
+        int grossValue = Integer.parseInt(invoiceLineContentsList.get(2));
+        int netValue = Integer.parseInt(invoiceLineContentsList.get(3));
+
+        return netValue == getNetValue(grossValue, invoiceTax);
+    }
+
+    private boolean checkCifAndNifFields(List<String> invoiceLineContentsList){
+
+        boolean lineContentCif = !invoiceLineContentsList.get(6).isBlank();
+        boolean lineContentNif = invoiceLineContentsList.size() == 8;
+
+        if (lineContentNif){ lineContentNif = !invoiceLineContentsList.get(7).isBlank(); }
+
+        return  !lineContentCif && lineContentNif || lineContentCif && !lineContentNif;
+    }
+
+    private boolean checkIvaAndIgicFields(List<String> invoiceLineContentsList){
+
+        boolean lineContentIva = !invoiceLineContentsList.get(4).isBlank();
+        boolean lineContentIgic = !invoiceLineContentsList.get(5).isBlank();
+
+        return !lineContentIva && lineContentIgic || lineContentIva && !lineContentIgic;
     }
 
     private boolean checkLinesWhenHaveSamesInvoiceNumbers(String invoiceNumber, List<String> lines){
