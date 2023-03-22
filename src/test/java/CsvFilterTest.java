@@ -58,7 +58,7 @@ class CsvFilterTest {
     @Test
     void given_correct_entrance_return_same_lines() throws ListWithoutHeaderExeption {
 
-        List<String> lines = List.of(HEADER_LINE, String.join(",", "1", "21/03/2023", "1000", "810", "", "7","B76430134", ""));
+        List<String> lines = List.of(HEADER_LINE, String.join(",", "1", "21/03/2023", "1000", "930", "", "7","B76430134", ""));
         List<String> result = FILTER.apply(lines);
 
         assertEquals(lines, result);
