@@ -26,6 +26,9 @@ class CsvFilterTest {
     *
     *       - A file with a single invoice where CIF and NIF are filled in, should eliminate the
     *         line.
+    *
+    *       - If the invoice number is repeated on several lines, all of them are deleted (without leaving
+    *         none).
     */
 
     private final String HEADER_LINE = "Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente";
@@ -90,6 +93,20 @@ class CsvFilterTest {
     void give_line_with_cif_and_nif_stuffed_return_same_list_without_that_line() throws ListWithoutHeaderExeption {
 
         List<String> lines = List.of(HEADER_LINE, String.join(",", "1", "21/03/2023", "1000", "930", "", "7","B76430134", "98102782L"));
+        List<String> result = FILTER.apply(lines);
+
+        List<String> expectedResponse = List.of(HEADER_LINE);
+
+        assertEquals(expectedResponse, result);
+    }
+
+    @Test
+    void give_lines_with_same_invoice_number_return_same_list_without_that_lines() throws ListWithoutHeaderExeption {
+
+        List<String> lines = List.of(HEADER_LINE,
+                String.join(",", "1", "21/03/2023", "1000", "930", "", "7","", "98102782L"),
+                String.join("," , "1", "20/03/2023", "1200", "948", "21", "","B76430134", ""));
+
         List<String> result = FILTER.apply(lines);
 
         List<String> expectedResponse = List.of(HEADER_LINE);

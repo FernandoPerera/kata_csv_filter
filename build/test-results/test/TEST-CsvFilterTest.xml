@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CsvFilterTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2023-03-22T09:48:50" hostname="DESKTOP-AUO9ALU" time="0.043">
+<testsuite name="CsvFilterTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2023-03-22T12:18:28" hostname="DESKTOP-AUO9ALU" time="0.028">
   <properties/>
-  <testcase name="give_line_with_wrongly_calculated_net_return_same_list_without_that_line()" classname="CsvFilterTest" time="0.029"/>
+  <testcase name="give_line_with_wrongly_calculated_net_return_same_list_without_that_line()" classname="CsvFilterTest" time="0.018"/>
   <testcase name="given_empty_list_return_empty_list()" classname="CsvFilterTest" time="0.001"/>
   <testcase name="given_correct_entrance_return_same_lines()" classname="CsvFilterTest" time="0.001"/>
-  <testcase name="give_line_with_iva_and_igic_stuffed_return_same_list_without_that_line()" classname="CsvFilterTest" time="0.0"/>
-  <testcase name="give_line_with_cif_and_nif_stuffed_return_same_list_without_that_line()" classname="CsvFilterTest" time="0.002"/>
-  <testcase name="given_list_without_header_line_return_throw_error()" classname="CsvFilterTest" time="0.005"/>
+  <testcase name="give_line_with_iva_and_igic_stuffed_return_same_list_without_that_line()" classname="CsvFilterTest" time="0.001"/>
+  <testcase name="give_line_with_cif_and_nif_stuffed_return_same_list_without_that_line()" classname="CsvFilterTest" time="0.001"/>
+  <testcase name="given_list_without_header_line_return_throw_error()" classname="CsvFilterTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
