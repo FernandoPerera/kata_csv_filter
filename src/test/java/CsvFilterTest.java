@@ -105,11 +105,12 @@ class CsvFilterTest {
 
         List<String> lines = List.of(HEADER_LINE,
                 String.join(",", "1", "21/03/2023", "1000", "930", "", "7","", "98102782L"),
-                String.join("," , "1", "20/03/2023", "1200", "948", "21", "","B76430134", ""));
+                String.join("," , "1", "20/03/2023", "1200", "948", "21", "","B76430134", ""),
+                String.join(",", "2", "21/03/2023", "1000", "930", "", "7","", "98102782L"));
 
         List<String> result = FILTER.apply(lines);
 
-        List<String> expectedResponse = List.of(HEADER_LINE);
+        List<String> expectedResponse = List.of(HEADER_LINE, String.join(",", "2", "21/03/2023", "1000", "930", "", "7","", "98102782L"));
 
         assertEquals(expectedResponse, result);
     }
