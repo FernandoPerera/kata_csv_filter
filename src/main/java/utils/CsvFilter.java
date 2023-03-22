@@ -39,6 +39,17 @@ public class CsvFilter {
             return responseList;
         }
 
+        boolean lineContentCif = !invoiceLine.get(6).isBlank();
+        boolean lineContentNif = invoiceLine.size() == 8;
+
+        if (lineContentNif){ lineContentNif = !invoiceLine.get(7).isBlank(); }
+
+        boolean checkContentOfCifAndNifInLine = !lineContentCif && lineContentNif || lineContentCif && !lineContentNif;
+
+        if (!checkContentOfCifAndNifInLine){
+            return responseList;
+        }
+
         int invoiceTax = lineContentIva
                 ? Integer.parseInt(invoiceLine.get(4))      // invoiceTax -> IVA
                 : Integer.parseInt(invoiceLine.get(5));     // invoiceTax -> IGIC
