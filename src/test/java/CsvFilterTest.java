@@ -20,6 +20,13 @@ class CsvFilterTest {
     *
     *       - A file with a single invoice where VAT and IGIC are filled in, should eliminate the
     *         line.
+    *
+    *       - A file with a single invoice where the net is wrongly calculated should be deleted.
+    *         nothing
+    */
+
+    /*
+    *   REALIZAR COMPROBACIÓN DEL GROSS VALUE.
     */
 
     private final String HEADER_LINE = "Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente";
@@ -67,7 +74,17 @@ class CsvFilterTest {
         List<String> expectedResponse = List.of(HEADER_LINE);
 
         assertEquals(expectedResponse, result);
+    }
 
+    @Test
+    void give_line_with_wrongly_calculated_net_return_same_list_without_that_line() throws ListWithoutHeaderExeption {
+
+        List<String> lines = List.of(HEADER_LINE, String.join(",", "1", "21/03/2023", "1200", "948", "21", "","B76430134", ""));
+        List<String> result = FILTER.apply(lines);
+
+        List<String> expectedResponse = List.of(HEADER_LINE);
+
+        assertEquals(expectedResponse, result);
     }
 
 }

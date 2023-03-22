@@ -21,10 +21,11 @@ public class CsvFilter {
             throw new ListWithoutHeaderExeption("ERROR: don't exist header in the list");
         }
 
-        return checkLineOfIvaAndIgicFields(lines);
+        return checkFields(lines);
     }
 
-    private List<String> checkLineOfIvaAndIgicFields(List<String> lines){
+    private List<String> checkFields(List<String> lines){
+
         List<String> responseList = new ArrayList<>();
 
         responseList.add(lines.get(0));
@@ -35,7 +36,11 @@ public class CsvFilter {
         boolean lineContentIgic = !invoiceLine.get(5).isBlank();
         boolean checkContentOfIvaAndIgicInLine = !lineContentIva && lineContentIgic || lineContentIva && !lineContentIgic;
 
-        if ( checkContentOfIvaAndIgicInLine ){
+        int tax = lineContentIva
+                ? Integer.parseInt(invoiceLine.get(4))
+                : Integer.parseInt(invoiceLine.get(5));
+
+        if ( checkContentOfIvaAndIgicInLine){
             responseList.add(lines.get(1));
         }
 
