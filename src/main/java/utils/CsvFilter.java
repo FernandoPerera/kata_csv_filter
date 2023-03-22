@@ -21,13 +21,12 @@ public class CsvFilter {
             throw new ListWithoutHeaderExeption("ERROR: don't exist header in the list");
         }
 
-        return checkFields(lines);
+        return checkFieldsOfInvoice(lines);
     }
 
-    private List<String> checkFields(List<String> lines){
+    private List<String> checkFieldsOfInvoice(List<String> lines){
 
         List<String> responseList = new ArrayList<>();
-
         responseList.add(lines.get(0));
 
         List<String> invoiceLine = List.of(lines.get(1).split(","));
@@ -36,15 +35,29 @@ public class CsvFilter {
         boolean lineContentIgic = !invoiceLine.get(5).isBlank();
         boolean checkContentOfIvaAndIgicInLine = !lineContentIva && lineContentIgic || lineContentIva && !lineContentIgic;
 
-        int tax = lineContentIva
-                ? Integer.parseInt(invoiceLine.get(4))
-                : Integer.parseInt(invoiceLine.get(5));
-
-        if ( checkContentOfIvaAndIgicInLine){
-            responseList.add(lines.get(1));
+        if (!checkContentOfIvaAndIgicInLine){
+            return responseList;
         }
 
+        int invoiceTax = lineContentIva
+                ? Integer.parseInt(invoiceLine.get(4))      // invoiceTax -> IVA
+                : Integer.parseInt(invoiceLine.get(5));     // invoiceTax -> IGIC
+
+        int grossValue = Integer.parseInt(invoiceLine.get(2));
+        int netValue = Integer.parseInt(invoiceLine.get(3));
+
+        boolean checkNetValue =  netValue == getNetValue(grossValue, invoiceTax);
+
+        if ( checkNetValue ){
+            responseList.add(lines.get(1));
+        }
         return responseList;
     }
+
+    private int getNetValue(int grossValue, int tax){
+        int grossMinusTaxes = (grossValue * tax) / 100;
+        return (grossValue - grossMinusTaxes);
+    }
+
 
 }
