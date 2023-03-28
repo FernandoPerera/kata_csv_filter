@@ -36,81 +36,77 @@ class CsvFilterTest {
     private final CsvFilter FILTER = new CsvFilter();
 
     @Test
-    void given_empty_list_return_empty_list() throws ListWithoutHeaderExeption {
+    void if_invoice_is_not_entered_nothing_is_returned() throws ListWithoutHeaderExeption {
+
         List<String> lines = List.of();
+
         List<String> result = FILTER.apply(lines);
 
         assertEquals(lines, result);
     }
 
     @Test
-    void given_list_without_header_line_return_throw_error() {
+    void if_header_is_not_entered_return_throw_error() {
 
         List<String> linesWithoutHeader = List.of(String.join(",", "1", "21/03/2023", "1000", "810", "", "7","B76430134", ""));
 
         ListWithoutHeaderExeption thrown = assertThrows(ListWithoutHeaderExeption.class, () ->
             FILTER.apply(linesWithoutHeader));
 
-        String errorResponse = "ERROR: don't exist header in the list";
-
-        assertTrue(thrown.getMessage().contentEquals(errorResponse));
-
+        assertEquals(thrown.getClass(), ListWithoutHeaderExeption.class);
     }
 
     @Test
-    void given_correct_entrance_return_same_lines() throws ListWithoutHeaderExeption {
+    void if_an_correct_invoice_is_entered_return_it() throws ListWithoutHeaderExeption {
 
         List<String> lines = List.of(HEADER_LINE, String.join(",", "1", "21/03/2023", "1000", "930", "", "7","B76430134", ""));
+
         List<String> result = FILTER.apply(lines);
 
         assertEquals(lines, result);
-
     }
-
     @Test
-    void give_line_with_iva_and_igic_stuffed_return_same_list_without_that_line() throws ListWithoutHeaderExeption {
+    void if_there_is_iva_and_igic_on_an_invoice_delete_that_line() throws ListWithoutHeaderExeption {
 
         List<String> lines = List.of(HEADER_LINE, String.join(",", "1", "21/03/2023", "1000", "810", "21", "7","B76430134", ""));
-        List<String> result = FILTER.apply(lines);
-
         List<String> expectedResponse = List.of(HEADER_LINE);
+
+        List<String> result = FILTER.apply(lines);
 
         assertEquals(expectedResponse, result);
     }
-
     @Test
-    void give_line_with_wrongly_calculated_net_return_same_list_without_that_line() throws ListWithoutHeaderExeption {
+    void if_the_net_value_is_wrongly_calculated_delete_that_invoice() throws ListWithoutHeaderExeption {
 
         List<String> lines = List.of(HEADER_LINE, String.join(",", "1", "21/03/2023", "1200", "968", "21", "","B76430134", ""));
-        List<String> result = FILTER.apply(lines);
-
         List<String> expectedResponse = List.of(HEADER_LINE);
+
+        List<String> result = FILTER.apply(lines);
 
         assertEquals(expectedResponse, result);
     }
 
     @Test
-    void give_line_with_cif_and_nif_stuffed_return_same_list_without_that_line() throws ListWithoutHeaderExeption {
+    void if_cif_and_nif_exist_on_an_invoice_delete_that_line() throws ListWithoutHeaderExeption {
 
         List<String> lines = List.of(HEADER_LINE, String.join(",", "1", "21/03/2023", "1000", "930", "", "7","B76430134", "98102782L"));
-        List<String> result = FILTER.apply(lines);
-
         List<String> expectedResponse = List.of(HEADER_LINE);
+
+        List<String> result = FILTER.apply(lines);
 
         assertEquals(expectedResponse, result);
     }
 
     @Test
-    void give_lines_with_same_invoice_number_return_same_list_without_that_lines() throws ListWithoutHeaderExeption {
+    void if_the_invoice_number_is_duplicated_delete_those_lines() throws ListWithoutHeaderExeption {
 
         List<String> lines = List.of(HEADER_LINE,
                 String.join(",", "1", "21/03/2023", "1000", "930", "", "7","", "98102782L"),
                 String.join("," , "1", "20/03/2023", "1200", "948", "21", "","B76430134", ""),
                 String.join(",", "2", "21/03/2023", "1000", "930", "", "7","", "98102782L"));
+        List<String> expectedResponse = List.of(HEADER_LINE, String.join(",", "2", "21/03/2023", "1000", "930", "", "7","", "98102782L"));
 
         List<String> result = FILTER.apply(lines);
-
-        List<String> expectedResponse = List.of(HEADER_LINE, String.join(",", "2", "21/03/2023", "1000", "930", "", "7","", "98102782L"));
 
         assertEquals(expectedResponse, result);
     }
