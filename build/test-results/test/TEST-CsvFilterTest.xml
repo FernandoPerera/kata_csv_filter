@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CsvFilterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-03-28T07:37:07" hostname="DESKTOP-AUO9ALU" time="0.029">
+<testsuite name="CsvFilterTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2023-03-28T09:32:57" hostname="DESKTOP-AUO9ALU" time="0.024">
   <properties/>
-  <testcase name="if_header_is_not_entered_return_throw_error()" classname="CsvFilterTest" time="0.029"/>
+  <testcase name="if_there_is_iva_and_igic_on_an_invoice_delete_that_line()" classname="CsvFilterTest" time="0.016"/>
+  <testcase name="if_cif_and_nif_exist_on_an_invoice_delete_that_line()" classname="CsvFilterTest" time="0.001"/>
+  <testcase name="if_the_net_value_is_wrongly_calculated_delete_that_invoice()" classname="CsvFilterTest" time="0.001"/>
+  <testcase name="if_invoice_is_not_entered_nothing_is_returned()" classname="CsvFilterTest" time="0.001"/>
+  <testcase name="if_an_correct_invoice_is_entered_return_it()" classname="CsvFilterTest" time="0.001"/>
+  <testcase name="if_header_is_not_entered_return_throw_error()" classname="CsvFilterTest" time="0.002"/>
+  <testcase name="if_the_invoice_number_is_duplicated_delete_those_lines()" classname="CsvFilterTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
